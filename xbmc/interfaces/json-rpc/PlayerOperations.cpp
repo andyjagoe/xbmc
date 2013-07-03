@@ -524,7 +524,7 @@ JSONRPC_STATUS CPlayerOperations::Open(const CStdString &method, ITransportLayer
       bool slideshow = true;
       for (int index = 0; index < list.Size(); index++)
       {
-        if (!list[index]->IsPicture())
+        if (!list[index]->IsPicture() && !list[index]->IsVideo())
         {
           slideshow = false;
           break;
