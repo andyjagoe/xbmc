@@ -27,6 +27,7 @@
 #include "ApplicationMessenger.h"
 #include "pictures/GUIWindowSlideShow.h"
 #include "pictures/PictureInfoTag.h"
+#include "video/VideoInfoTag.h"
 
 using namespace JSONRPC;
 using namespace PLAYLIST;
@@ -128,12 +129,22 @@ JSONRPC_STATUS CPlaylistOperations::Add(const CStdString &method, ITransportLaye
 
       for (int index = 0; index < list.Size(); index++)
       {
-        CPictureInfoTag picture = CPictureInfoTag();
-        if (!picture.Load(list[index]->GetPath()))
-          continue;
+        if (list[index]->IsPicture()) {
+    	        CPictureInfoTag picture = CPictureInfoTag();
+    	        if (!picture.Load(list[index]->GetPath()))
+    	          continue;
 
-        *list[index]->GetPictureInfoTag() = picture;
-        slideshow->Add(list[index].get());
+    	        *list[index]->GetPictureInfoTag() = picture;
+    	        slideshow->Add(list[index].get());
+    	  }
+    	  else if (list[index]->IsVideo()) {
+    		  	CVideoInfoTag picture = CVideoInfoTag();
+    	        //if (!picture.Load(list[index]->GetPath()))
+    	        //  continue;
+
+    	        *list[index]->GetVideoInfoTag() = picture;
+    	        slideshow->Add(list[index].get());
+    	  }
       }
       break;
   }
